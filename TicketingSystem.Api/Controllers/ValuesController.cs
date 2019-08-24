@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TicketingSystem.Database.Context;
 
 namespace TicketingSystem.Api.Controllers
 {
@@ -10,6 +11,12 @@ namespace TicketingSystem.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private DatabaseContext context;
+        public ValuesController(DatabaseContext dbCtx)
+        {
+            context = dbCtx;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
