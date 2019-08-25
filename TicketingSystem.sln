@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingSystem.Api", "TicketingSystem.Api\TicketingSystem.Api.csproj", "{DB0B6169-6571-4EB8-A50C-8A91291D77EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketingSystem.Api", "TicketingSystem.Api\TicketingSystem.Api.csproj", "{DB0B6169-6571-4EB8-A50C-8A91291D77EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingSystem.Core", "TicketingSystem.Core\TicketingSystem.Core.csproj", "{9DD532AB-93FE-4F84-A498-26FF2897624A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketingSystem.Core", "TicketingSystem.Core\TicketingSystem.Core.csproj", "{9DD532AB-93FE-4F84-A498-26FF2897624A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingSystem.Database", "TicketingSystem.Database\TicketingSystem.Database.csproj", "{E6AA3642-D729-4797-8F4D-D18BDEDAB433}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketingSystem.Database", "TicketingSystem.Database\TicketingSystem.Database.csproj", "{E6AA3642-D729-4797-8F4D-D18BDEDAB433}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingSystem.Test", "TicketingSystem.Test\TicketingSystem.Test.csproj", "{4000F01A-FDBA-43E2-93D2-570BEB3066ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E6AA3642-D729-4797-8F4D-D18BDEDAB433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6AA3642-D729-4797-8F4D-D18BDEDAB433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6AA3642-D729-4797-8F4D-D18BDEDAB433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4000F01A-FDBA-43E2-93D2-570BEB3066ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4000F01A-FDBA-43E2-93D2-570BEB3066ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4000F01A-FDBA-43E2-93D2-570BEB3066ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4000F01A-FDBA-43E2-93D2-570BEB3066ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

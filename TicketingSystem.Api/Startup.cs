@@ -12,7 +12,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TicketingSystem.Core.Helpers;
+using TicketingSystem.Core.Services;
 using TicketingSystem.Database.Context;
+using TicketingSystem.Database.IRepositories;
+using TicketingSystem.Database.Repositories;
 
 namespace TicketingSystem.Api
 {
@@ -34,6 +38,26 @@ namespace TicketingSystem.Api
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddTransient<PriorityRepository>();
+            services.AddTransient<PriorityService>();
+
+            services.AddTransient<ServiceTypeRepository>();
+            services.AddTransient<ServiceTypeService>();
+
+            services.AddTransient<StatusRepository>();
+            services.AddTransient<StatusService>();
+
+            services.AddTransient<TicketTypeRepository>();
+            services.AddTransient<TicketTypeService>();
+
+            services.AddTransient<SettingRepository>();
+            services.AddTransient<SettingService>();
+
+            services.AddTransient<TicketRepository>();
+            services.AddTransient<TicketService>();
+
+            services.AddTransient<TicketConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

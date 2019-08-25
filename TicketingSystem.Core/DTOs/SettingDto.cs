@@ -11,8 +11,7 @@ namespace TicketingSystem.Core.DTOs
     public class SettingDto
     {
         public string Id { get; set; }
-        public bool CanModifyTicketType { get; set; }
-        public bool CanModifyCustomerName { get; set; }
-        public bool CanModifyServiceType { get; set; }
+        public string Name { get; set; }
+        public bool Enabled { get; set; }
     }
 }

@@ -14,9 +14,8 @@ namespace TicketingSystem.Database.Entities
         public string Subject { get; set; }
         public string Description { get; set; }
         public string CustomerName { get; set; }
-        public int PriorityId { get; set; }
         public DateTime OpenDateTime { get; set; }
-        public DateTime CloseDateTime { get; set; }
+        public DateTime? CloseDateTime { get; set; }
         public TicketType TicketType { get; set; }
         public ServiceType ServiceType { get; set; }
         public Status Status { get; set; }
