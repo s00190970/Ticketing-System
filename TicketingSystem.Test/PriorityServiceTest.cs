@@ -56,13 +56,16 @@ namespace TicketingSystem.Test
         [Test]
         public void AddPriority()
         {
-            _service.Add(new PriorityDto { Id = "3", Name = "name3" });
+            _service.Add(new PriorityDto {Id = "3", Name = "name3" });
             _service.Save(_dbContextMock);
 
             var result = _service.GetAll();
             var count = result.Count();
 
             Assert.AreEqual(3, count);
+
+            var addedEntity = result.Find(x => x.Name == "name3");
+            Assert.NotNull(addedEntity);
         }
 
         private Priority[] GetFakeData()

@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using TicketingSystem.Database.Context;
 using TicketingSystem.Database.Entities;
 using TicketingSystem.Database.IRepositories;
 
 namespace TicketingSystem.Database.Repositories
 {
-    public class ServiceTypeRepository : IServiceTypeRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _context;
-        public ServiceTypeRepository(DatabaseContext context)
+
+        public UserRepository(DatabaseContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         public void Dispose()
@@ -21,21 +23,30 @@ namespace TicketingSystem.Database.Repositories
             _context.Dispose();
         }
 
-        public List<ServiceType> GetAll()
+        public List<User> GetAll()
         {
-            return _context.ServiceTypes.ToList();
+            return _context.Users.ToList();
         }
 
-        public ServiceType GetById(string id)
+        public User GetById(string id)
         {
-            return _context.ServiceTypes.Find(id);
+            return _context.Users.Find(id);
         }
 
-        public dynamic Add(ServiceType item)
+        public dynamic Add(User user)
         {
             dynamic context = new Dictionary<string, object>();
-            _context.ServiceTypes.Add(item);
-            context["Output"] = item;
+            _context.Users.Add(user);
+            context["Output"] = user;
+
+            return context;
+        }
+
+        public dynamic Edit(User user)
+        {
+            dynamic context = new Dictionary<string, object>();
+            _context.Entry(user).State = EntityState.Modified;
+            context["Output"] = _context.Users.Find(user.Id);
 
             return context;
         }

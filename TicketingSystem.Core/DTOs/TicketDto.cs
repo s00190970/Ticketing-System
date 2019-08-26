@@ -16,6 +16,7 @@ namespace TicketingSystem.Core.DTOs
         public string CustomerName { get; set; }
         public DateTime OpenDateTime { get; set; }
         public DateTime? CloseDateTime { get; set; }
+        public string UserId { get; set; }
         public string TicketTypeId { get; set; }
         public string ServiceTypeId { get; set; }
         public string StatusId { get; set; }

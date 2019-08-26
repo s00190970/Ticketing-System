@@ -57,6 +57,9 @@ namespace TicketingSystem.Api
             services.AddTransient<TicketRepository>();
             services.AddTransient<TicketService>();
 
+            services.AddTransient<UserRepository>();
+            services.AddTransient<UserService>();
+
             services.AddTransient<TicketConverter>();
         }
 

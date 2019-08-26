@@ -34,13 +34,16 @@ namespace TicketingSystem.Database.Repositories
 
         public Setting Edit(Setting setting)
         {
-            _context.Entry(setting).State = EntityState.Modified;
-            return _context.Settings.Find(setting.Id);
+            var edited = _context.Settings.Find(setting.Id);
+            edited.Enabled = setting.Enabled;
+            edited.Name = setting.Name;
+            return edited;
         }
 
         public Setting Add(Setting item)
         {
-            return _context.Settings.Add(item).Entity;
+            _context.Settings.Add(item);
+            return item;
         }
 
         public void Save()

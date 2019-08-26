@@ -35,7 +35,8 @@ namespace TicketingSystem.Database.Repositories
         public dynamic Add(Priority item)
         {
             dynamic context = new Dictionary<string, object>();
-            context["Output"] = _context.Priorities.Add(item).Entity;
+            _context.Priorities.Add(item);
+            context["Output"] = item;
 
             return context;
         }

@@ -53,5 +53,10 @@ namespace TicketingSystem.Core.Services
             return ticketDto;
         }
 
+        public List<TicketDto> GetByUserId(string userId)
+        {
+            return _converter.ModelsToDtos(_repository.GetByUserId(userId));
+        }
+
     }
 }

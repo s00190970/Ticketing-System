@@ -34,7 +34,8 @@ namespace TicketingSystem.Database.Repositories
         public dynamic Add(TicketType item)
         {
             dynamic context = new Dictionary<string, object>();
-            context["Output"] = _context.TicketTypes.Add(item).Entity;
+            _context.TicketTypes.Add(item);
+            context["Output"] = item;
 
             return context;
         }

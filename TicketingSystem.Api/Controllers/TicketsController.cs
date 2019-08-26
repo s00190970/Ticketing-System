@@ -46,7 +46,7 @@ namespace TicketingSystem.Api.Controllers
 
         // PUT: api/Tickets/5
         [HttpPut("{id}")]
-        public ActionResult<TicketDto> PutTicket(string id, TicketDto ticketDto)
+        public ActionResult<TicketDto> PutTicket(string id, [FromBody] TicketDto ticketDto)
         {
             if (id != ticketDto.Id)
             {

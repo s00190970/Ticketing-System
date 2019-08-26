@@ -34,18 +34,35 @@ namespace TicketingSystem.Database.Repositories
 
         public Ticket Add(Ticket ticket)
         {
-            return _context.Tickets.Add(ticket).Entity;
+            _context.Tickets.Add(ticket);
+            return ticket;
         }
 
         public Ticket Edit(Ticket ticket)
         {
-            _context.Entry(ticket).State = EntityState.Modified;
-            return _context.Tickets.Find(ticket.Id);
+            var edited = _context.Tickets.Find(ticket.Id);
+            edited.CloseDateTime = ticket.CloseDateTime;
+            edited.CustomerName = ticket.CustomerName;
+            edited.Description = ticket.Description;
+            edited.OpenDateTime = ticket.OpenDateTime;
+            edited.Priority = ticket.Priority;
+            edited.ServiceType = ticket.ServiceType;
+            edited.Status = ticket.Status;
+            edited.Subject = ticket.Subject;
+            edited.TicketType = ticket.TicketType;
+            edited.User = ticket.User;
+
+            return edited;
         }
 
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public List<Ticket> GetByUserId(string userId)
+        {
+            return _context.Tickets.Where(t => t.User.Id == userId).ToList();
         }
     }
 }

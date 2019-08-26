@@ -14,16 +14,19 @@ namespace TicketingSystem.Core.Helpers
         private readonly ServiceTypeRepository _serviceTypeRepository;
         private readonly StatusRepository _statusRepository;
         private readonly TicketTypeRepository _ticketTypeRepository;
+        private readonly UserRepository _userRepository;
 
         public TicketConverter(PriorityRepository priorityRepository, 
             ServiceTypeRepository serviceTypeRepository, 
             StatusRepository statusRepository, 
-            TicketTypeRepository ticketTypeRepository)
+            TicketTypeRepository ticketTypeRepository,
+            UserRepository userRepository)
         {
             _priorityRepository = priorityRepository;
             _serviceTypeRepository = serviceTypeRepository;
             _statusRepository = statusRepository;
             _ticketTypeRepository = ticketTypeRepository;
+            _userRepository = userRepository;
         }
 
         public Ticket DtoToModel(TicketDto dto)
@@ -42,6 +45,7 @@ namespace TicketingSystem.Core.Helpers
                 CustomerName = dto.CustomerName,
                 Subject = dto.Subject,
                 Description = dto.Description,
+                User = _userRepository.GetById(dto.UserId),
                 Priority = _priorityRepository.GetById(dto.PriorityId),
                 ServiceType = _serviceTypeRepository.GetById(dto.ServiceTypeId),
                 Status = _statusRepository.GetById(dto.StatusId),

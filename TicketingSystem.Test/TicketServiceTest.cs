@@ -26,18 +26,50 @@ namespace TicketingSystem.Test
         [SetUp]
         public void Initialize()
         {
-            var tickets = GetFakeData();
 
             _dbContextMock = new DbContextMock<DatabaseContext>(DummyOptions);
-            var dbSetMock = _dbContextMock.CreateDbSetMock(x => x.Tickets, tickets);
+            InitializeMockDbSet();
 
             var repository = new TicketRepository(_dbContextMock.Object);
             var convertor = new TicketConverter(new PriorityRepository(_dbContextMock.Object),
                 new ServiceTypeRepository(_dbContextMock.Object),
                 new StatusRepository(_dbContextMock.Object),
-                new TicketTypeRepository(_dbContextMock.Object));
+                new TicketTypeRepository(_dbContextMock.Object),
+                new UserRepository(_dbContextMock.Object));
 
             _service = new TicketService(repository, convertor);
+        }
+
+        private void InitializeMockDbSet()
+        {
+            var users = new[]
+            {
+                new User {Id = "1", UserName = "name"}
+            };
+            var priority = new[]
+            {
+                new Priority {Id = "1", Name = "priority"},
+            };
+            var serviceType = new[]
+            {
+                new ServiceType {Id = "1", Name = "serviceType"},
+            };
+            var ticketType = new[]
+            {
+                new TicketType {Id = "1", Name = "ticketType"},
+            };
+            var status = new[]
+            {
+                new Status {Id = "1", Name = "status"},
+            };
+            var tickets = GetFakeData();
+
+            var dbSetMock = _dbContextMock.CreateDbSetMock(x => x.Tickets, tickets);
+            var dbUserSetMock = _dbContextMock.CreateDbSetMock(x => x.Users, users);
+            var dbPrioritySetMock = _dbContextMock.CreateDbSetMock(x => x.Priorities, priority);
+            var dbServiceTypeSetMock = _dbContextMock.CreateDbSetMock(x => x.ServiceTypes, serviceType);
+            var dbTicketTypeSetMock = _dbContextMock.CreateDbSetMock(x => x.TicketTypes, ticketType);
+            var dbStatusSetMock = _dbContextMock.CreateDbSetMock(x => x.Statuses, status);
         }
 
         [Test]
@@ -61,7 +93,19 @@ namespace TicketingSystem.Test
         [Test]
         public void AddTicket()
         {
-            _service.Add(new TicketDto { Id = "3", Subject = "name3", ServiceTypeId = "123" });
+            _service.Add(new TicketDto
+            {
+                Id = "3",
+                Subject = "name3",
+                ServiceTypeId = "1",
+                OpenDateTime = DateTime.Now,
+                CustomerName = "customer",
+                Description = "description",
+                PriorityId = "1",
+                StatusId = "1",
+                TicketTypeId = "1",
+                UserId = "1"
+            });
             _service.Save();
 
             var result = _service.GetAll();
@@ -71,14 +115,26 @@ namespace TicketingSystem.Test
         }
 
         [Test]
-        public void EditSetting()
+        public void EditTicket()
         {
-            _service.Edit(new TicketDto { Id = "1", Subject = "name1", ServiceTypeId = "345" });
+            _service.Edit(new TicketDto
+            {
+                Id = "1",
+                Subject = "newSubject",
+                ServiceTypeId = "1",
+                OpenDateTime = DateTime.Now,
+                CustomerName = "customer",
+                Description = "description",
+                PriorityId = "1",
+                StatusId = "1",
+                TicketTypeId = "1",
+                UserId = "1"
+            });
             _service.Save();
 
             var result = _service.GetById("1");
 
-            Assert.AreEqual(result.ServiceTypeId, "345");
+            Assert.AreEqual("newSubject", result.Subject);
         }
 
         private Ticket[] GetFakeData()
@@ -86,9 +142,25 @@ namespace TicketingSystem.Test
             return new[]
             {
                 new Ticket {Id = "1", Subject = "name1",
-                    ServiceType = new ServiceType{Id = "service1", Name = "service name 1"}},
-                new Ticket { Id = "2", Subject = "name2",
-                    ServiceType = new ServiceType {Id = "service2", Name = "service name 2"}}
+                    ServiceType = new ServiceType{Id = "service1", Name = "servicetype1"},
+                    User = new User{Id = "1"},
+                    Priority = new Priority{ Id = "1", Name = "priority1"},
+                    Status = new Status{Id = "1", Name = "status1"},
+                    TicketType = new TicketType{Id = "1", Name = "ticket type1"},
+                    CustomerName = "customer",
+                    Description = "description",
+                    OpenDateTime = DateTime.Now
+                },
+                new Ticket {Id = "2", Subject = "name2",
+                    ServiceType = new ServiceType{Id = "service2", Name = "servicetype2"},
+                    User = new User{Id = "2"},
+                    Priority = new Priority{ Id = "2", Name = "priority2"},
+                    Status = new Status{Id = "2", Name = "status1"},
+                    TicketType = new TicketType{Id = "2", Name = "ticket type2"},
+                    CustomerName = "customer",
+                    Description = "description",
+                    OpenDateTime = DateTime.Now
+                }
             };
         }
     }
