@@ -27,7 +27,7 @@ namespace TicketingSystem.Database.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+             
             modelBuilder.Entity<User>()
                 .HasMany(m => m.Tickets)
                 .WithOne(o => o.User);

@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Options;
 using TicketingSystem.Core.Helpers;
 using TicketingSystem.Core.Services;
 using TicketingSystem.Database.Context;
+using TicketingSystem.Database.Entities;
 using TicketingSystem.Database.IRepositories;
 using TicketingSystem.Database.Repositories;
 
@@ -61,10 +63,14 @@ namespace TicketingSystem.Api
             services.AddTransient<UserService>();
 
             services.AddTransient<TicketConverter>();
+
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DatabaseContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager, DatabaseContext context)
         {
             if (env.IsDevelopment())
             {
@@ -80,6 +86,8 @@ namespace TicketingSystem.Api
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+
+            DatabaseInitializer.Initialize(userManager, roleManager, context).Wait();
         }
     }
 }
