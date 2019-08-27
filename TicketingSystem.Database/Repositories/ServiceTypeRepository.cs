@@ -31,6 +31,11 @@ namespace TicketingSystem.Database.Repositories
             return _context.ServiceTypes.Find(id);
         }
 
+        public ServiceType GetByName(string name)
+        {
+            return _context.ServiceTypes.FirstOrDefault(s => s.Name == name);
+        }
+
         public dynamic Add(ServiceType item)
         {
             dynamic context = new Dictionary<string, object>();

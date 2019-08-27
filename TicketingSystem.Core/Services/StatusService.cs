@@ -31,6 +31,11 @@ namespace TicketingSystem.Core.Services
             return MapperHelper<Status, StatusDto>.ConvertToDto(_repository.GetById(id));
         }
 
+        public StatusDto GetByName(string name)
+        {
+            return MapperHelper<Status, StatusDto>.ConvertToDto(_repository.GetByName(name));
+        }
+
         public dynamic Add(StatusDto item)
         {
             Status status = MapperHelper<Status, StatusDto>.ConvertToModel(item);

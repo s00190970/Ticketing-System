@@ -32,6 +32,11 @@ namespace TicketingSystem.Database.Repositories
             return _context.Priorities.Find(id);
         }
 
+        public Priority GetByName(string name)
+        {
+            return _context.Priorities.FirstOrDefault(p => p.Name == name);
+        }
+
         public dynamic Add(Priority item)
         {
             dynamic context = new Dictionary<string, object>();

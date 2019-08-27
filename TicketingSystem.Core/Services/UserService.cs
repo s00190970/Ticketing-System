@@ -37,6 +37,11 @@ namespace TicketingSystem.Core.Services
             return MapperHelper<User, UserDto>.ConvertToDto(_repository.GetById(id));
         }
 
+        public UserDto GetByName(string name)
+        {
+            return MapperHelper<User, UserDto>.ConvertToDto(_repository.GetByName(name));
+        }
+
         public dynamic Add(UserDto item)
         {
             User user = MapperHelper<User, UserDto>.ConvertToModel(item);

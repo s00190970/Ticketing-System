@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using TicketingSystem.Core.DTOs;
 using TicketingSystem.Database.Context;
@@ -40,16 +41,16 @@ namespace TicketingSystem.Core.Helpers
             Ticket ticket = new Ticket
             {
                 Id = dto.Id,
-                OpenDateTime = dto.OpenDateTime,
-                CloseDateTime = dto.CloseDateTime,
+                OpenDateTime = DateTime.Parse(dto.OpenDateTime),
+                CloseDateTime = dto.CloseDateTime == null ? (DateTime?)null : DateTime.Parse(dto.CloseDateTime),
                 CustomerName = dto.CustomerName,
                 Subject = dto.Subject,
                 Description = dto.Description,
-                User = _userRepository.GetById(dto.UserId),
-                Priority = _priorityRepository.GetById(dto.PriorityId),
-                ServiceType = _serviceTypeRepository.GetById(dto.ServiceTypeId),
-                Status = _statusRepository.GetById(dto.StatusId),
-                TicketType = _ticketTypeRepository.GetById(dto.TicketTypeId)
+                User = _userRepository.GetByName(dto.UserName),
+                Priority = _priorityRepository.GetByName(dto.PriorityName),
+                ServiceType = _serviceTypeRepository.GetByName(dto.ServiceTypeName),
+                Status = _statusRepository.GetByName(dto.StatusName),
+                TicketType = _ticketTypeRepository.GetByName(dto.TicketTypeName)
             };
             return ticket;
         }
@@ -64,15 +65,17 @@ namespace TicketingSystem.Core.Helpers
             TicketDto dto = new TicketDto
             {
                 Id = ticket.Id,
-                OpenDateTime = ticket.OpenDateTime,
-                CloseDateTime = ticket.CloseDateTime,
+                OpenDateTime = ticket.OpenDateTime.ToString(CultureInfo.InvariantCulture),
+                CloseDateTime = ticket.CloseDateTime.ToString(),
                 CustomerName = ticket.CustomerName,
                 Subject = ticket.Subject,
                 Description = ticket.Description,
-                PriorityId = ticket.Priority.Id,
-                ServiceTypeId = ticket.ServiceType.Id,
-                StatusId = ticket.Status.Id,
-                TicketTypeId = ticket.TicketType.Id
+                PriorityName = ticket.Priority.Name,
+                ServiceTypeName = ticket.ServiceType.Name,
+                StatusName = ticket.Status.Name,
+                TicketTypeName = ticket.TicketType.Name,
+                UserName = ticket.User.UserName,
+                UserEmail = ticket.User.Email
             };
 
             return dto;

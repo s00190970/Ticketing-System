@@ -19,8 +19,4 @@
     <ProjectReference Include="..\TicketingSystem.Database\TicketingSystem.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
-
 </Project>

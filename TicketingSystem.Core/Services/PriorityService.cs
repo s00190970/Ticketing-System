@@ -32,6 +32,11 @@ namespace TicketingSystem.Core.Services
             return MapperHelper<Priority, PriorityDto>.ConvertToDto(_repository.GetById(id));
         }
 
+        public PriorityDto GetByName(string name)
+        {
+            return MapperHelper<Priority, PriorityDto>.ConvertToDto(_repository.GetByName(name));
+        }
+
         public dynamic Add(PriorityDto item)
         {
             Priority priority = MapperHelper<Priority, PriorityDto>.ConvertToModel(item);

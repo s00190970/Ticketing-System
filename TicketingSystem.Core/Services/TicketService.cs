@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using AutoMapper;
 using TicketingSystem.Core.DTOs;
@@ -41,7 +42,7 @@ namespace TicketingSystem.Core.Services
 
         public TicketDto Add(TicketDto item)
         {
-            item.OpenDateTime = DateTime.Now;
+            item.OpenDateTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
             Ticket ticket = _converter.DtoToModel(item);
             TicketDto ticketDto = _converter.ModelToDto(_repository.Add(ticket));
             return ticketDto;

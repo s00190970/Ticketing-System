@@ -33,6 +33,11 @@ namespace TicketingSystem.Core.Services
             return MapperHelper<ServiceType, ServiceTypeDto>.ConvertToDto(_repository.GetById(id));
         }
 
+        public ServiceTypeDto GetByName(string name)
+        {
+            return MapperHelper<ServiceType, ServiceTypeDto>.ConvertToDto(_repository.GetByName(name));
+        }
+
         public dynamic Add(ServiceTypeDto item)
         {
             ServiceType serviceType = MapperHelper<ServiceType, ServiceTypeDto>.ConvertToModel(item);

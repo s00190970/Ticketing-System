@@ -14,12 +14,13 @@ namespace TicketingSystem.Core.DTOs
         public string Subject { get; set; }
         public string Description { get; set; }
         public string CustomerName { get; set; }
-        public DateTime OpenDateTime { get; set; }
-        public DateTime? CloseDateTime { get; set; }
-        public string UserId { get; set; }
-        public string TicketTypeId { get; set; }
-        public string ServiceTypeId { get; set; }
-        public string StatusId { get; set; }
-        public string PriorityId { get; set; }
+        public string OpenDateTime { get; set; }
+        public string CloseDateTime { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+        public string TicketTypeName { get; set; }
+        public string ServiceTypeName { get; set; }
+        public string StatusName { get; set; }
+        public string PriorityName { get; set; }
     }
 }

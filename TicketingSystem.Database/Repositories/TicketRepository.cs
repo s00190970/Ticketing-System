@@ -24,7 +24,13 @@ namespace TicketingSystem.Database.Repositories
 
         public List<Ticket> GetAll()
         {
-            return _context.Tickets.ToList();
+            return _context.Tickets
+                .Include(p => p.Priority)
+                .Include(t => t.TicketType)
+                .Include(s => s.ServiceType)
+                .Include(s => s.Status)
+                .Include(u => u.User)
+                .ToList();
         }
 
         public Ticket GetById(string ticketId)

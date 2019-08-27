@@ -9,6 +9,7 @@ namespace TicketingSystem.Database.IRepositories
     {
         List<User> GetAll();
         User GetById(string id);
+        User GetByName(string name);
         dynamic Add(User user);
         dynamic Edit(User user);
         void Save(dynamic context);

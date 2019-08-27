@@ -31,6 +31,11 @@ namespace TicketingSystem.Database.Repositories
             return _context.Statuses.Find(id);
         }
 
+        public Status GetByName(string name)
+        {
+            return _context.Statuses.FirstOrDefault(s => s.Name == name);
+        }
+
         public dynamic Add(Status item)
         {
             dynamic context = new Dictionary<string, object>();

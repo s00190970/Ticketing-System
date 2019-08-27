@@ -31,6 +31,11 @@ namespace TicketingSystem.Database.Repositories
             return _context.TicketTypes.Find(id);
         }
 
+        public TicketType GetByName(string name)
+        {
+            return _context.TicketTypes.FirstOrDefault(t => t.Name == name);
+        }
+
         public dynamic Add(TicketType item)
         {
             dynamic context = new Dictionary<string, object>();

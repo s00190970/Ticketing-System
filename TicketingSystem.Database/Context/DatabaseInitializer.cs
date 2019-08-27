@@ -14,8 +14,6 @@ namespace TicketingSystem.Database.Context
     {
         public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, DatabaseContext context)
         {
-            //var context = serviceProvider.GetService<DatabaseContext>();
-
             await SeedRoles(roleManager);
             await SeedUsers(context, userManager);
             await SeedTicketProperties(context);
