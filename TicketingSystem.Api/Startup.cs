@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using TicketingSystem.Core.Helpers;
 using TicketingSystem.Core.Services;
 using TicketingSystem.Database.Context;
@@ -37,6 +38,9 @@ namespace TicketingSystem.Api
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DbConnectionString"),
                 b => b.MigrationsAssembly("TicketingSystem.Api")));
+
+            services.AddMvc().AddJsonOptions(options =>
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAutoMapper(typeof(Startup));

@@ -42,7 +42,7 @@ namespace TicketingSystem.Core.Helpers
             {
                 Id = dto.Id,
                 OpenDateTime = DateTime.Parse(dto.OpenDateTime),
-                CloseDateTime = dto.CloseDateTime == null ? (DateTime?)null : DateTime.Parse(dto.CloseDateTime),
+                CloseDateTime = string.IsNullOrEmpty(dto.CloseDateTime) ? (DateTime?)null : DateTime.Parse(dto.CloseDateTime),
                 CustomerName = dto.CustomerName,
                 Subject = dto.Subject,
                 Description = dto.Description,
@@ -65,7 +65,7 @@ namespace TicketingSystem.Core.Helpers
             TicketDto dto = new TicketDto
             {
                 Id = ticket.Id,
-                OpenDateTime = ticket.OpenDateTime.ToString(CultureInfo.InvariantCulture),
+                OpenDateTime = ticket.OpenDateTime.ToString(),
                 CloseDateTime = ticket.CloseDateTime.ToString(),
                 CustomerName = ticket.CustomerName,
                 Subject = ticket.Subject,

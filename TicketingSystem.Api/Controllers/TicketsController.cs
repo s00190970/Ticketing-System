@@ -58,8 +58,10 @@ namespace TicketingSystem.Api.Controllers
                 ticketDto = _service.Edit(ticketDto);
                 _service.Save();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine("Exception at PUT Ticket:");
+                Console.WriteLine(e);
                 return BadRequest();
             }
 
