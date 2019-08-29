@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +49,7 @@ namespace TicketingSystem.Api.Controllers
         [HttpPut("{id}")]
         public ActionResult<TicketDto> PutTicket(string id, [FromBody] TicketDto ticketDto)
         {
-            if (id != ticketDto.Id)
+            if (id != ticketDto.Id || !isValid(ticketDto))
             {
                 return BadRequest();
             }
@@ -60,9 +61,7 @@ namespace TicketingSystem.Api.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception at PUT Ticket:");
-                Console.WriteLine(e);
-                return BadRequest();
+                return StatusCode(500);
             }
 
             return ticketDto;
@@ -72,10 +71,28 @@ namespace TicketingSystem.Api.Controllers
         [HttpPost]
         public ActionResult<TicketDto> PostTicket([FromBody]TicketDto ticketDto)
         {
+
+            if (!isValid(ticketDto))
+            {
+                return BadRequest();
+            }
+            
             ticketDto = _service.Add(ticketDto);
             _service.Save();
 
             return ticketDto;
+        }
+
+        bool isValid(TicketDto dto)
+        {
+            if (string.IsNullOrEmpty(dto.UserName) || string.IsNullOrEmpty(dto.PriorityName) ||
+                string.IsNullOrEmpty(dto.ServiceTypeName) || string.IsNullOrEmpty(dto.StatusName) ||
+                string.IsNullOrEmpty(dto.TicketTypeName))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
