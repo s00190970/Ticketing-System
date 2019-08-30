@@ -13,7 +13,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class SettingsController : ControllerBase

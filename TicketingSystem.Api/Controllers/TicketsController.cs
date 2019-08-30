@@ -14,7 +14,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketsController : ControllerBase

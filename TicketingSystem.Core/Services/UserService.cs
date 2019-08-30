@@ -38,6 +38,16 @@ namespace TicketingSystem.Core.Services
             _repository.Dispose();
         }
 
+        public UserDto Register(UserDto user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Password) || GetByName(user.UserName) != null)
+            {
+                return null;
+            }
+
+            return null;
+        }
+
         public void Save(dynamic context)
         {
             _repository.Save(context);

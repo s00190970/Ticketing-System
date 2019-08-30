@@ -11,7 +11,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -38,6 +38,19 @@ namespace TicketingSystem.Api.Controllers
             return Ok(user);
         }
 
+        // POST api/Users/register
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] UserDto userParam)
+        {
+            UserDto user = _service.Register(userParam);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(user);
+        }
 
         // GET: api/Users
         [HttpGet]

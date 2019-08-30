@@ -45,16 +45,8 @@ namespace TicketingSystem.Api
                 Configuration.GetConnectionString("DbConnectionString"),
                 b => b.MigrationsAssembly("TicketingSystem.Api")));
 
-            services.AddMvc().AddJsonOptions(options =>
-                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local);
-
-            services.AddCors();
-
             ConfigureJwt(services);
 
-            IdentityModelEventSource.ShowPII = true;
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAutoMapper(typeof(Startup));
 
             services.AddTransient<PriorityRepository>();
@@ -84,6 +76,13 @@ namespace TicketingSystem.Api
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DatabaseContext>();
 
             services.AddTransient<JwtFactory>();
+
+            services.AddMvc().AddJsonOptions(options =>
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local);
+
+            services.AddCors();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         private void ConfigureJwt(IServiceCollection services)
