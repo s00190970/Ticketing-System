@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TicketingSystem.Core.DTOs;
@@ -38,14 +39,28 @@ namespace TicketingSystem.Core.Services
             _repository.Dispose();
         }
 
-        public UserDto Register(UserDto user)
+        public UserDto Register(UserDto userDto)
         {
-            if (string.IsNullOrWhiteSpace(user.Password) || GetByName(user.UserName) != null)
+            if (string.IsNullOrWhiteSpace(userDto.Password) || GetByName(userDto.UserName) != null)
             {
                 return null;
             }
 
-            return null;
+            User user = new User
+            {
+                Email = userDto.Email,
+                UserName = userDto.UserName,
+                EmailConfirmed = false,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            User registeredUser = _repository.Register(user, userDto.Password);
+            if (registeredUser == null)
+            {
+                return null;
+            }
+
+            return Authenticate(userDto.UserName, userDto.Password);
         }
 
         public void Save(dynamic context)
