@@ -13,7 +13,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SettingsController : ControllerBase
@@ -26,6 +26,7 @@ namespace TicketingSystem.Api.Controllers
         }
 
         // GET: api/Settings
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpGet]
         public ActionResult<List<SettingDto>> GetSettings()
         {
@@ -33,6 +34,7 @@ namespace TicketingSystem.Api.Controllers
         }
 
         // PUT: api/Settings/5
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult<SettingDto> PutSetting(string id, SettingDto settingDto)
         {
@@ -55,6 +57,7 @@ namespace TicketingSystem.Api.Controllers
         }
 
         // POST: api/Settings
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost]
         public ActionResult<SettingDto> PostSettings(SettingDto settingDto)
         {

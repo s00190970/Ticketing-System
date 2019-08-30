@@ -68,7 +68,12 @@ namespace TicketingSystem.Database.Repositories
 
         public List<Ticket> GetByUserId(string userId)
         {
-            return _context.Tickets.Where(t => t.User.Id == userId).ToList();
+            return _context.Tickets.Include(p => p.Priority)
+                .Include(t => t.TicketType)
+                .Include(s => s.ServiceType)
+                .Include(s => s.Status)
+                .Include(u => u.User)
+                .Where(t => t.User.Id == userId).ToList();
         }
     }
 }

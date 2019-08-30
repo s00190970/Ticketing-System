@@ -30,7 +30,15 @@ namespace TicketingSystem.Database.Repositories
 
         public List<User> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(t => t.Tickets)
+                .ThenInclude(p => p.Priority)
+                .Include(t => t.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.ServiceType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.Status)
+                .ToList();
         }
 
         public User GetById(string id)

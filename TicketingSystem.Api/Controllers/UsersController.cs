@@ -52,6 +52,7 @@ namespace TicketingSystem.Api.Controllers
             return Ok(user);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         // GET: api/Users
         [HttpGet]
         public ActionResult<List<UserDto>> GetUsers()

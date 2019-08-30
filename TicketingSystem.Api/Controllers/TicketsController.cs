@@ -47,6 +47,13 @@ namespace TicketingSystem.Api.Controllers
             return ticket;
         }
 
+        //GET: api/Tickets/Users/5
+        [HttpGet("Users/{id}")]
+        public ActionResult<List<TicketDto>> GetTicketsByUserId(string id)
+        {
+            return _service.GetByUserId(id);
+        }
+
         // PUT: api/Tickets/5
         [HttpPut("{id}")]
         public ActionResult<TicketDto> PutTicket(string id, [FromBody] TicketDto ticketDto)
