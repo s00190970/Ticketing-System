@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketingSystem.Core.DTOs;
@@ -10,6 +11,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -21,6 +23,22 @@ namespace TicketingSystem.Api.Controllers
             _service = service;
         }
 
+        // POST api/Users/authenticate
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] UserDto userParam)
+        {
+            UserDto user = _service.Authenticate(userParam.UserName, userParam.Password);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(user);
+        }
+
+
         // GET: api/Users
         [HttpGet]
         public ActionResult<List<UserDto>> GetUsers()
@@ -29,7 +47,7 @@ namespace TicketingSystem.Api.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet]
+        [HttpGet("{id}")]
         public ActionResult<UserDto> GetUser(string id)
         {
             var user = _service.GetById(id);

@@ -30,12 +30,30 @@ namespace TicketingSystem.Database.Repositories
 
         public User GetById(string id)
         {
-            return _context.Users.Find(id);
+            User user = 
+             _context.Users.Include(t => t.Tickets)
+                .ThenInclude(p => p.Priority)
+                .Include(t => t.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.ServiceType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.Status)
+                .FirstOrDefault(u => u.Id == id);
+
+            return user;
         }
 
         public User GetByName(string name)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == name);
+            return _context.Users.Include(u=>u.Tickets).ThenInclude(p => p.Priority)
+                .Include(t => t.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.ServiceType)
+                .Include(t => t.Tickets)
+                .ThenInclude(s => s.Status)
+                .FirstOrDefault(u => u.UserName == name);
         }
 
         public dynamic Add(User user)

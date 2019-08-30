@@ -97,14 +97,14 @@ namespace TicketingSystem.Test
             {
                 Id = "3",
                 Subject = "name3",
-                ServiceTypeId = "1",
-                OpenDateTime = DateTime.Now,
+                ServiceTypeName = "servicetype",
+                OpenDateTime = DateTime.Now.ToString(),
                 CustomerName = "customer",
                 Description = "description",
-                PriorityId = "1",
-                StatusId = "1",
-                TicketTypeId = "1",
-                UserId = "1"
+                PriorityName = "priority",
+                StatusName = "status",
+                TicketTypeName = "tickettype",
+                UserName = "user"
             });
             _service.Save();
 
@@ -121,14 +121,14 @@ namespace TicketingSystem.Test
             {
                 Id = "1",
                 Subject = "newSubject",
-                ServiceTypeId = "1",
-                OpenDateTime = DateTime.Now,
+                ServiceTypeName = "servicetype",
+                OpenDateTime = DateTime.Now.ToString(),
                 CustomerName = "customer",
                 Description = "description",
-                PriorityId = "1",
-                StatusId = "1",
-                TicketTypeId = "1",
-                UserId = "1"
+                PriorityName = "priority",
+                StatusName = "status",
+                TicketTypeName = "tickettype",
+                UserName = "user"
             });
             _service.Save();
 

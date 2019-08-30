@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Database.Context
@@ -15,7 +13,7 @@ namespace TicketingSystem.Database.Context
         public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, DatabaseContext context)
         {
             await SeedRoles(roleManager);
-            await SeedUsers(context, userManager);
+            await SeedUsers(context, userManager, roleManager);
             await SeedTicketProperties(context);
         }
 
@@ -32,7 +30,7 @@ namespace TicketingSystem.Database.Context
             }
         }
 
-        private static async Task SeedUsers(DatabaseContext context,UserManager<User> userManager)
+        private static async Task SeedUsers(DatabaseContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             var user = new User
             {
@@ -50,9 +48,11 @@ namespace TicketingSystem.Database.Context
                 var userStore = new UserStore<User>(context);
                 var result = userStore.CreateAsync(user);
 
+                string[] roles = {"Admin", "User"};
+
                 if (result.Result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.AddToRolesAsync(user, roles);
                 }
 
                 await context.SaveChangesAsync();
@@ -63,7 +63,7 @@ namespace TicketingSystem.Database.Context
         {
             if (!context.Priorities.Any())
             {
-                await context.Priorities.AddRangeAsync(new List<Priority>()
+                await context.Priorities.AddRangeAsync(new List<Priority>
                 {
                     new Priority("Low"),
                     new Priority("Medium"),
@@ -73,7 +73,7 @@ namespace TicketingSystem.Database.Context
 
             if (!context.ServiceTypes.Any())
             {
-                await context.ServiceTypes.AddRangeAsync(new List<ServiceType>()
+                await context.ServiceTypes.AddRangeAsync(new List<ServiceType>
                 {
                     new ServiceType("Repair"),
                     new ServiceType("Debug")
@@ -83,7 +83,7 @@ namespace TicketingSystem.Database.Context
 
             if (!context.Statuses.Any())
             {
-                await context.Statuses.AddRangeAsync(new List<Status>()
+                await context.Statuses.AddRangeAsync(new List<Status>
                 {
                     new Status("Waiting"),
                     new Status("In Progress"),
@@ -94,7 +94,7 @@ namespace TicketingSystem.Database.Context
 
             if (!context.TicketTypes.Any())
             {
-                await context.TicketTypes.AddRangeAsync(new List<TicketType>()
+                await context.TicketTypes.AddRangeAsync(new List<TicketType>
                 {
                     new TicketType("Tech"),
                     new TicketType("Business")
@@ -103,7 +103,7 @@ namespace TicketingSystem.Database.Context
 
             if (!context.Settings.Any())
             {
-                await context.Settings.AddRangeAsync(new List<Setting>()
+                await context.Settings.AddRangeAsync(new List<Setting>
                 {
                     new Setting {Name = "CanModifyTicketType", Enabled = true},
                     new Setting {Name = "CanModifyCustomerName", Enabled = true},

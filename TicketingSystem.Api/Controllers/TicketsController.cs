@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using TicketingSystem.Database.Entities;
 
 namespace TicketingSystem.Api.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketsController : ControllerBase
