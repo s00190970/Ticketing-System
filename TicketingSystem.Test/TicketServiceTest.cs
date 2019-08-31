@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntityFrameworkCoreMock;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 using TicketingSystem.Core.DTOs;
 using TicketingSystem.Core.Helpers;
@@ -19,6 +21,7 @@ namespace TicketingSystem.Test
     {
         private TicketService _service;
         private DbContextMock<DatabaseContext> _dbContextMock;
+        private Mock<UserManager<User>> _userManagerMock;
 
         private DbContextOptions<DatabaseContext> DummyOptions { get; } =
             new DbContextOptionsBuilder<DatabaseContext>().Options;
@@ -29,22 +32,42 @@ namespace TicketingSystem.Test
 
             _dbContextMock = new DbContextMock<DatabaseContext>(DummyOptions);
             InitializeMockDbSet();
+            InitializeMockUserManager();
 
             var repository = new TicketRepository(_dbContextMock.Object);
             var convertor = new TicketConverter(new PriorityRepository(_dbContextMock.Object),
                 new ServiceTypeRepository(_dbContextMock.Object),
                 new StatusRepository(_dbContextMock.Object),
                 new TicketTypeRepository(_dbContextMock.Object),
-                new UserRepository(_dbContextMock.Object));
+                new UserRepository(_dbContextMock.Object, _userManagerMock.Object));
 
             _service = new TicketService(repository, convertor);
+        }
+
+        private void InitializeMockUserManager()
+        {
+            List<User> users = new List<User>
+            {
+                new User {UserName = "user1", Email = "user1@mail.com", Id = "1"},
+                new User {UserName = "user2", Email = "user2@mail.com", Id = "2"}
+            };
+
+            var store = new Mock<IUserStore<User>>();
+            _userManagerMock =
+                new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+            _userManagerMock.Object.UserValidators.Add(new UserValidator<User>());
+            _userManagerMock.Object.PasswordValidators.Add(new PasswordValidator<User>());
+
+            _userManagerMock.Setup(x => x.DeleteAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<User, string>((x, y) => users.Add(x));
+            _userManagerMock.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
         }
 
         private void InitializeMockDbSet()
         {
             var users = new[]
             {
-                new User {Id = "1", UserName = "name"}
+                new User {Id = "1", UserName = "user"}
             };
             var priority = new[]
             {
@@ -97,13 +120,13 @@ namespace TicketingSystem.Test
             {
                 Id = "3",
                 Subject = "name3",
-                ServiceTypeName = "servicetype",
+                ServiceTypeName = "serviceType",
                 OpenDateTime = DateTime.Now.ToString(),
                 CustomerName = "customer",
                 Description = "description",
                 PriorityName = "priority",
                 StatusName = "status",
-                TicketTypeName = "tickettype",
+                TicketTypeName = "ticketType",
                 UserName = "user"
             });
             _service.Save();
@@ -121,13 +144,13 @@ namespace TicketingSystem.Test
             {
                 Id = "1",
                 Subject = "newSubject",
-                ServiceTypeName = "servicetype",
+                ServiceTypeName = "serviceType",
                 OpenDateTime = DateTime.Now.ToString(),
                 CustomerName = "customer",
                 Description = "description",
                 PriorityName = "priority",
                 StatusName = "status",
-                TicketTypeName = "tickettype",
+                TicketTypeName = "ticketType",
                 UserName = "user"
             });
             _service.Save();

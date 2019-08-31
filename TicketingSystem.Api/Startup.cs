@@ -19,6 +19,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
 using TicketingSystem.Core.Helpers;
 using TicketingSystem.Core.JWT;
 using TicketingSystem.Core.Services;
@@ -46,6 +47,11 @@ namespace TicketingSystem.Api
                 b => b.MigrationsAssembly("TicketingSystem.Api")));
 
             ConfigureJwt(services);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "TicketingSystem API", Version = "v1" });
+            });
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -119,6 +125,15 @@ namespace TicketingSystem.Api
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager, DatabaseContext context)
         {
+            app.Use(async (ctx, next) =>
+            {
+                await next();
+                if (ctx.Response.StatusCode == 204)
+                {
+                    ctx.Response.ContentLength = 0;
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -128,6 +143,14 @@ namespace TicketingSystem.Api
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TicketingSystem API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseHttpsRedirection();

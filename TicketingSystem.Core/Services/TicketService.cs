@@ -42,7 +42,7 @@ namespace TicketingSystem.Core.Services
 
         public TicketDto Add(TicketDto item)
         {
-            item.OpenDateTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            item.OpenDateTime = DateTime.Now.ToString();
             Ticket ticket = _converter.DtoToModel(item);
             TicketDto ticketDto = _converter.ModelToDto(_repository.Add(ticket));
             return ticketDto;
